@@ -3,8 +3,10 @@ load('likelihoods_RW.mat')
 load('rat_SR_IS_llik.mat')
 
 % Set default properties for all figures
-set(groot, 'defaultAxesFontName', 'Times New Roman')
-set(groot, 'defaultTextFontName', 'Times New Roman')
+set(groot, 'defaultAxesFontName', 'HelveticaNeue')
+set(groot, 'defaultTextFontName', 'HelveticaNeue')
+set(groot, 'defaultAxesFontWeight', 'normal')
+set(groot, 'defaultTextFontWeight', 'normal')
 set(groot, 'defaultAxesXColor', 'k')
 set(groot, 'defaultAxesYColor', 'k')
 set(groot, 'defaultAxesZColor', 'k')
@@ -92,13 +94,13 @@ end
 %% Figure 1: Overall Model Comparison
 figure
 hold on
-set(gca,'FontSize',18, 'FontName', 'Times New Roman')
+set(gca,'FontSize',18, 'FontName', 'HelveticaNeue')
 bar(1:4,ll,'FaceColor','k')
 title('Rats', 'FontName', 'Times New Roman','Color','Black')
 xticks(1:4)
 xticklabels({'MF','MB','SR','SR-IS'})
 box on
-ylabel('Log Likelihood', 'FontName', 'Times New Roman')
+ylabel('Log Likelihood', 'FontName', 'HelveticaNeue')
 yline(baseline, 'Color','red', 'LineWidth',2,'LineStyle','--')
 ylim([-5.6e4,-5.25e4])
 yticks([-5.5e4, -5.25e4])
@@ -130,13 +132,15 @@ ylim([0,0.042])
 yticks([0, 0.03])
 xticks([1:4, 5.5:1:8.5])
 xticklabels({'MF', 'MB','SR','SR-IS','MF', 'MB','SR','SR-IS'})
-ylabel('Avg action likelihood', 'FontName', 'Times New Roman')
+ylabel('Avg action likelihood', 'FontName', 'HelveticaNeue')
 box on
 
 
 %% Figure 3: Heatmap by Maze Configuration
-figure('Position', [100, 100, 800, 250])  % Adjust figure size [left, bottom, width, height]
+figure('Position', [100, 100, 800, 250])
 imagesc(squeeze(nanmedian(lliks,[2,4])))
+% set(gca, 'FontWeight', 'normal')
+% set(gca, 'FontName', 'HelveticaNeue')
 set(gca,'FontSize',20)
 set(gcf,'color','w');
 set(gca,'LineWidth',2)
@@ -144,6 +148,8 @@ yticks([1,2,3,4])
 yticklabels({'MF','MB','SR','SR-IS'})
 colormap jet
 cb = colorbar;
+% set(cb, 'FontWeight', 'normal')
+% set(cb, 'FontName', 'HelveticaNeue')
 caxis([0.0,0.03])
 pbaspect([25 4 1])
 

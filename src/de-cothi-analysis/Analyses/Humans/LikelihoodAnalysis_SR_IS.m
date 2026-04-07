@@ -3,8 +3,8 @@ load('likelihoods_RW.mat')
 load('human_SR_IS_llik.mat')
 
 % Set default properties for all figures
-set(groot, 'defaultAxesFontName', 'Times New Roman')
-set(groot, 'defaultTextFontName', 'Times New Roman')
+set(groot, 'defaultAxesFontName', 'HelveticaNeue')
+set(groot, 'defaultTextFontName', 'HelveticaNeue')
 set(groot, 'defaultAxesXColor', 'k')
 set(groot, 'defaultAxesYColor', 'k')
 set(groot, 'defaultAxesZColor', 'k')

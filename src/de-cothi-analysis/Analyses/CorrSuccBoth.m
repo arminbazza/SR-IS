@@ -47,7 +47,7 @@ xticklabels({'MF','MB','SR', 'SR-IS'})
 % Save human correlation
 set(gcf, 'Units', 'inches');
 set(gcf, 'Position', [0 0 5 4]);
-exportgraphics(gcf, [save_dir,'corr_human.png'], 'Resolution', 300);
+% exportgraphics(gcf, [save_dir,'corr_human.png'], 'Resolution', 300);
 
 %% Rat Paths
 load('Rats/rat.mat')
@@ -98,4 +98,4 @@ xticklabels({'MF','MB','SR', 'SR-IS'})
 % Save rat correlation
 set(gcf, 'Units', 'inches');
 set(gcf, 'Position', [0 0 5 4]);
-exportgraphics(gcf, [save_dir,'corr_rat.png'], 'Resolution', 300);
+% exportgraphics(gcf, [save_dir,'corr_rat.png'], 'Resolution', 300);
