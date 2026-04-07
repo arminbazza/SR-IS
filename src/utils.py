@@ -543,7 +543,6 @@ def test_agent(agent, policy="greedy", state=None, seed=None, term_state=None):
             next_state = obs["agent"]
             traj.append(next_state)
             state = next_state
-
             if np.all(next_state == term_state):
                 break
     else:

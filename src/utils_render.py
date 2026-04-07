@@ -146,7 +146,7 @@ def render_maze_dc(maze, save_path=None, title=None):
     for i in range(maze.shape[0]):
         for j in range(maze.shape[1]):
             if 1 <= maze[i, j] <= 10:
-                rect = patches.Rectangle((j-0.5, i-0.5), 1, 1, fill=True, facecolor='blue', alpha=0.7)
+                rect = patches.Rectangle((j-0.5, i-0.5), 1, 1, fill=True, facecolor='gray', alpha=0.7)
                 ax.add_patch(rect)
                 ax.text(j, i, str(int(maze[i, j])), ha='center', va='center', color='white', fontweight='bold', fontsize=10)
     
@@ -159,8 +159,9 @@ def render_maze_dc(maze, save_path=None, title=None):
     if save_path is not None:
         plt.savefig(save_path, bbox_inches='tight', dpi=300)
 
-def plot_decision_prob(probs_train, probs_test, colors, leg_loc=None, save_path=None, title=None, ylabel=None, std=None, remove_spine=False, ymax=None, start_i=0):
-    plt.rcParams['font.family'] = 'serif'
+def plot_decision_prob(probs_train, probs_test, colors, leg_loc=None, save_path=None, title=None, ylabel=None, std=None, remove_spine=False, ymax=None, show=True, start_i=0):
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.sans-serif'] = ['Helvetica Neue']
     color_palette = sns.color_palette("colorblind")
     color_list = []
     for color in colors:
@@ -187,9 +188,9 @@ def plot_decision_prob(probs_train, probs_test, colors, leg_loc=None, save_path=
     handles = [plt.Rectangle((0,0),1,1, facecolor=color_list[i], edgecolor='black') for i in range(len(probs_train))]
 
     if leg_loc is not None:
-        plt.legend(handles, [f'$\mathrm{{s}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc=leg_loc, fontsize=14)
+        plt.legend(handles, [f'$\mathrm{{s}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc=leg_loc, fontsize=14, frameon=False)
     else:
-        plt.legend(handles, [f'$\mathrm{{s}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc='upper right', fontsize=14)
+        plt.legend(handles, [f'$\mathrm{{s}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc='upper right', fontsize=14, frameon=False)
     
     if ylabel is not None:
         plt.ylabel(ylabel, fontsize=18)
@@ -215,8 +216,11 @@ def plot_decision_prob(probs_train, probs_test, colors, leg_loc=None, save_path=
     # Save the image
     if save_path is not None:
         plt.savefig(save_path, bbox_inches='tight', dpi=300)
-
-    plt.show()
+        
+    if show:
+        plt.show()
+        
+    plt.close()
 
 def plot_decision_prob_two_step(probs_train, probs_test, colors, leg_loc=None, save_path=None, title=None, ylabel=None, std=None, remove_spine=False, ymax=None, start_i=0):
     plt.rcParams['font.family'] = 'sans-serif'
@@ -279,7 +283,8 @@ def plot_decision_prob_two_step(probs_train, probs_test, colors, leg_loc=None, s
     plt.show()
 
 def plot_decision_prob_detour(probs_train, probs_test, colors, leg_loc=None, save_path=None, title=None):
-    plt.rcParams['font.family'] = 'serif'
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.sans-serif'] = ['Helvetica Neue']
     color_palette = sns.color_palette("colorblind")
     color_list = []
     for color in colors:
@@ -323,9 +328,9 @@ def plot_decision_prob_detour(probs_train, probs_test, colors, leg_loc=None, sav
     handles = [plt.Rectangle((0,0),1,1, facecolor=color_list[i], edgecolor='black') for i in range(len(mean_train))]
 
     if leg_loc is not None:
-        plt.legend(handles, [f'$\mathrm{{s}}_{i+1}$' for i in range(len(mean_train))], title='States', loc=leg_loc, fontsize=14)
+        plt.legend(handles, [f'$\mathrm{{s}}_{i+1}$' for i in range(len(mean_train))], title='States', loc=leg_loc, fontsize=14, frameon=False)
     else:
-        plt.legend(handles, [f'$\mathrm{{s}}_{i+1}$' for i in range(len(mean_train))], title='States', loc='upper right', fontsize=14)
+        plt.legend(handles, [f'$\mathrm{{s}}_{i+1}$' for i in range(len(mean_train))], title='States', loc='upper right', fontsize=14, frameon=False)
     
     plt.ylabel('Probabilities', fontsize=18)
     plt.xticks([0.4, 1.9], ['Training', 'Test'], fontsize=18)
@@ -336,7 +341,11 @@ def plot_decision_prob_detour(probs_train, probs_test, colors, leg_loc=None, sav
 
     if title is not None:
         plt.title(title, fontsize=20)
-
+        
+    ax = plt.gca()
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    
     if save_path is not None:
         plt.savefig(save_path, bbox_inches='tight', dpi=300)
 
