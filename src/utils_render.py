@@ -103,7 +103,7 @@ def render_maze_replan(agent, state=None, initial_goal=None, replan_goals=None, 
     ax.add_patch(reward)
 
     for i, goal_loc in enumerate(replan_goals, 2):
-        reward = patches.Rectangle((goal_loc[1] - 0.5, goal_loc[0] - 0.5), 1.0, 1.0, fill=True, color='purple', alpha=0.5)
+        reward = patches.Rectangle((goal_loc[1] - 0.5, goal_loc[0] - 0.5), 1.0, 1.0, fill=True, color='gray', alpha=0.7)
         ax.text(goal_loc[1], goal_loc[0], f'$\mathrm{{r}}_{i}$', color='white', fontsize=fontsize, ha='center', va='center')
         ax.add_patch(reward)
 
@@ -219,7 +219,8 @@ def plot_decision_prob(probs_train, probs_test, colors, leg_loc=None, save_path=
     plt.show()
 
 def plot_decision_prob_two_step(probs_train, probs_test, colors, leg_loc=None, save_path=None, title=None, ylabel=None, std=None, remove_spine=False, ymax=None, start_i=0):
-    plt.rcParams['font.family'] = 'serif'
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.sans-serif'] = ['Helvetica Neue']
     color_palette = sns.color_palette("colorblind")
     color_list = []
     for color in colors:
@@ -246,9 +247,9 @@ def plot_decision_prob_two_step(probs_train, probs_test, colors, leg_loc=None, s
     handles = [plt.Rectangle((0,0),1,1, facecolor=color_list[i], edgecolor='black') for i in range(len(probs_train))]
 
     if leg_loc is not None:
-        plt.legend(handles, [f'$\mathrm{{S}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc=leg_loc, fontsize=14)
+        plt.legend(handles, [f'$\mathrm{{S}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc=leg_loc, fontsize=14, frameon=False)
     else:
-        plt.legend(handles, [f'$\mathrm{{S}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc='upper right', fontsize=14)
+        plt.legend(handles, [f'$\mathrm{{S}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc='upper right', fontsize=14, frameon=False)
     
     if ylabel is not None:
         plt.ylabel(ylabel, fontsize=18)
@@ -347,20 +348,15 @@ def create_bar_plot(means, colors, ylabel, xlabels, y_lim=None, std=None, title=
 
     Args:
         means (array) : mean of each bar to plot
-        colors (list) : idx of color palette color to use
+        colors (list) : colors to use
         ylabel (string) : label for the y-axis
         xlabels (list of strings) : labels for the x-axis
         std (array, optional) : std error of each bar
         title (string, optional) : title of the plot
         save_path (string, optional) : where to save the figure
     """
-
-    color_palette = sns.color_palette("colorblind")
-    color_list = []
-    for color in colors:
-        color_list.append(color_palette[color])
-
-    plt.rcParams['font.family'] = 'serif'
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.sans-serif'] = ['Helvetica Neue']
     
     fig, ax = plt.subplots(figsize=(6, 5))
     x = np.arange(len(means)) * 0.25
@@ -369,7 +365,7 @@ def create_bar_plot(means, colors, ylabel, xlabels, y_lim=None, std=None, title=
     min_visible_height = 0.02
     plot_means[plot_means < 0.1] = min_visible_height
     
-    bars = ax.bar(x, plot_means, color=color_list, edgecolor='black', linewidth=1, width=0.14)
+    bars = ax.bar(x, plot_means, color=colors, edgecolor='black', linewidth=1, width=0.14)
     
     if std is not None:
         ax.errorbar(x, means, yerr=std, fmt='none', color='black', capsize=0)
@@ -445,9 +441,9 @@ def plot_nhb_decisions(probs_reward, probs_policy, probs_transition, colors, leg
 
     handles = [plt.Rectangle((0,0),1,1, facecolor=color_list[i], edgecolor='black') for i in range(num_states)]
     if leg_loc is not None:
-        plt.legend(handles, [f'State {i+2}' for i in range(num_states)], title='States', loc=leg_loc, fontsize=12, title_fontsize=14)
+        plt.legend(handles, [f'State {i+2}' for i in range(num_states)], title='States', loc=leg_loc, fontsize=12, title_fontsize=14, frameon=False)
     else:
-        plt.legend(handles, [f'State {i+2}' for i in range(num_states)], title='States', loc='upper right', fontsize=12, title_fontsize=14)
+        plt.legend(handles, [f'State {i+2}' for i in range(num_states)], title='States', fontsize=12, title_fontsize=14, frameon=False)
 
     plt.ylabel('Probabilities', fontsize=18)
     plt.title(title if title else 'Decision Probabilities Across Revaluations', fontsize=22, pad=20)
@@ -458,10 +454,15 @@ def plot_nhb_decisions(probs_reward, probs_policy, probs_transition, colors, leg
     y_ticks = np.arange(0, min(max_prob + 0.1, 1.05), 0.1)
     plt.yticks(y_ticks, fontsize=12)
 
-    plt.rcParams['font.family'] = 'serif'
+    plt.rcParams['font.family'] = 'sans-serif'
+    plt.rcParams['font.sans-serif'] = ['Helvetica Neue']
 
     plt.tight_layout()
     plt.subplots_adjust(bottom=0.15)  # Increase bottom margin
+    
+    ax = plt.gca()
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
 
     if save_path is not None:
         plt.savefig(save_path, bbox_inches='tight', dpi=300)
