@@ -544,7 +544,7 @@ class SR_TD:
         num_steps (int) : Number of training steps
         policy (string) : Decision policy
     """
-    def __init__(self, env_name, reward=1, term_reward=10, gamma=0.82, alpha=0.1, beta=1, num_steps=25000, policy="random", diag=False):
+    def __init__(self, env_name, reward=1, term_reward=10, gamma=0.82, alpha=0.1, beta=1, epsilon=0.1, num_steps=25000, policy="random", diag=False):
         self.env = gym.make(env_name)
         self.start_loc = self.env.unwrapped.start_loc
         self.target_locs = self.env.unwrapped.target_locs
@@ -571,6 +571,7 @@ class SR_TD:
         self.alpha = alpha
         self.beta = beta
         self.gamma = gamma
+        self.epsilon = epsilon
         self.num_steps = num_steps
         self.policy = policy
 
@@ -612,7 +613,22 @@ class SR_TD:
                 action_probs[action] = np.exp(self.V[self.mapping[(new_state[0], new_state[1])]] / self.beta) / v_sum
             action = np.random.choice(self.env.action_space.n, p=action_probs)
             return action, None
-            
+        
+        elif self.policy == "egreedy":
+            # Explore: random action with probability epsilon
+            if np.random.random() < self.epsilon:
+                return self.env.unwrapped.random_action()
+
+            # Exploit: greedy action with probability 1 - epsilon
+            action_values = np.full(self.env.action_space.n, -np.inf)
+            for action in self.env.unwrapped.get_available_actions(state):
+                direction = self.env.unwrapped._action_to_direction[action]
+                new_state = state + direction
+                if np.any(np.all(self.target_locs == new_state, axis=1)):
+                    return action
+                action_values[action] = self.V[self.mapping[(new_state[0], new_state[1])]]
+            return int(np.nanargmax(action_values))
+
         elif self.policy == "greedy":
             action_values = np.full(self.env.action_space.n, -np.inf)
             for action in self.env.unwrapped.get_available_actions(state):
