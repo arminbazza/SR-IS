@@ -251,13 +251,13 @@ def plot_decision_prob_two_step(probs_train, probs_test, colors, leg_loc=None, s
     handles = [plt.Rectangle((0,0),1,1, facecolor=color_list[i], edgecolor='black') for i in range(len(probs_train))]
 
     if leg_loc is not None:
-        plt.legend(handles, [f'$\mathrm{{S}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc=leg_loc, fontsize=14, frameon=False)
+        plt.legend(handles, [f'$\mathrm{{S}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc=leg_loc, fontsize=16, frameon=False)
     else:
-        plt.legend(handles, [f'$\mathrm{{S}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc='upper right', fontsize=14, frameon=False)
+        plt.legend(handles, [f'$\mathrm{{S}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc='upper right', fontsize=16, frameon=False)
     
     if ylabel is not None:
-        plt.ylabel(ylabel, fontsize=18)
-    plt.xticks([0.2, 1.7], ['Before\nrevaluation', 'After\nrevaluation'], fontsize=18)
+        plt.ylabel(ylabel, fontsize=20)
+    plt.xticks([0.2, 1.7], ['Before\nrevaluation', 'After\nrevaluation'], fontsize=20)
 
     # Set custom y-axis ticks
     if ymax is None:
@@ -269,7 +269,7 @@ def plot_decision_prob_two_step(probs_train, probs_test, colors, leg_loc=None, s
         plt.yticks(y_ticks)
 
     if title is not None:
-        plt.title(title, fontsize=20)
+        plt.title(title, fontsize=22)
     
     if remove_spine:
         ax = plt.gca()
