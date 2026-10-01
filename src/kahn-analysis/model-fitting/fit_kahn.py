@@ -120,7 +120,6 @@ def define_model_parameters(model, parameters=None):
         beta = lambda_
         policy_params = [gamma, lambda_, beta]
         pnames = ['alpha_r', 'alpha_D', 'gamma', 'lambda']
-        
     if model == 'sr':
         alpha_r = sigmoid(parameters[0])        
         alpha_D = sigmoid(parameters[1])
