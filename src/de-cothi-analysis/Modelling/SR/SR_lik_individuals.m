@@ -18,8 +18,7 @@ ppt_params = zeros(n_ppt, n_params);
 ll = 0;
 
 for i = 1:n_ppt
-    fun = @(x)-SR_lik_imp(x,dat(i,:,:));
-    % fun = @(x)-SR_lik(x,dat(i,:,:));
+    fun = @(x)-SR_lik(x,dat(i,:,:));
     options = optimset('Display','iter','PlotFcns',@optimplotfval);
     [x,f_val] = fmincon(fun,x0,A,b,Aeq,beq,lb,ub,[],options);
 
