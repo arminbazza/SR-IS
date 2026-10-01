@@ -9,7 +9,7 @@ import random
 from utils import get_map
 
 
-def render_maze(agent, state=None, locs=None, colors=None, ax=None, save_path=None, wall=None, fontsize=10):
+def render_maze(agent, state=None, locs=None, colors=None, ax=None, save_path=None, wall=None, fontsize=16):
     """
     Renders the maze
 
@@ -188,13 +188,15 @@ def plot_decision_prob(probs_train, probs_test, colors, leg_loc=None, save_path=
     handles = [plt.Rectangle((0,0),1,1, facecolor=color_list[i], edgecolor='black') for i in range(len(probs_train))]
 
     if leg_loc is not None:
-        plt.legend(handles, [f'$\mathrm{{s}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc=leg_loc, fontsize=14, frameon=False)
+        plt.legend(handles, [f'$\mathrm{{s}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc=leg_loc, fontsize=16, title_fontsize=16, frameon=False)
     else:
-        plt.legend(handles, [f'$\mathrm{{s}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc='upper right', fontsize=14, frameon=False)
+        plt.legend(handles, [f'$\mathrm{{s}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc='upper right', fontsize=16, title_fontsize=16, frameon=False)
     
     if ylabel is not None:
-        plt.ylabel(ylabel, fontsize=18)
-    plt.xticks([0.2, 1.7], ['Training', 'Test'], fontsize=18)
+        plt.ylabel(ylabel, fontsize=16)
+    plt.xticks([0.2, 1.7], ['Training', 'Test'], fontsize=16)
+    plt.tick_params(axis='y', which='major', labelsize=16, width=1.5, length=6, direction='out')
+    plt.tick_params(axis='x', which='both', length=0)
 
     # Set custom y-axis ticks
     if ymax is None:
@@ -206,12 +208,14 @@ def plot_decision_prob(probs_train, probs_test, colors, leg_loc=None, save_path=
         plt.yticks(y_ticks)
 
     if title is not None:
-        plt.title(title, fontsize=20)
+        plt.title(title, fontsize=18)
     
+    ax = plt.gca()
     if remove_spine:
-        ax = plt.gca()
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_linewidth(1.5)
+    ax.spines['bottom'].set_linewidth(1.5)
 
     # Save the image
     if save_path is not None:
@@ -251,9 +255,9 @@ def plot_decision_prob_two_step(probs_train, probs_test, colors, leg_loc=None, s
     handles = [plt.Rectangle((0,0),1,1, facecolor=color_list[i], edgecolor='black') for i in range(len(probs_train))]
 
     if leg_loc is not None:
-        plt.legend(handles, [f'$\mathrm{{S}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc=leg_loc, fontsize=16, frameon=False)
+        plt.legend(handles, [f'$\mathrm{{S}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc=leg_loc, fontsize=16, title_fontsize=16, frameon=False)
     else:
-        plt.legend(handles, [f'$\mathrm{{S}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc='upper right', fontsize=16, frameon=False)
+        plt.legend(handles, [f'$\mathrm{{S}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc='upper right', fontsize=16, title_fontsize=16, frameon=False)
     
     if ylabel is not None:
         plt.ylabel(ylabel, fontsize=20)
@@ -328,23 +332,27 @@ def plot_decision_prob_detour(probs_train, probs_test, colors, leg_loc=None, sav
     handles = [plt.Rectangle((0,0),1,1, facecolor=color_list[i], edgecolor='black') for i in range(len(mean_train))]
 
     if leg_loc is not None:
-        plt.legend(handles, [f'$\mathrm{{s}}_{i+1}$' for i in range(len(mean_train))], title='States', loc=leg_loc, fontsize=14, frameon=False)
+        plt.legend(handles, [f'$\mathrm{{s}}_{i+1}$' for i in range(len(mean_train))], title='States', loc=leg_loc, fontsize=16, title_fontsize=16, frameon=False)
     else:
-        plt.legend(handles, [f'$\mathrm{{s}}_{i+1}$' for i in range(len(mean_train))], title='States', loc='upper right', fontsize=14, frameon=False)
+        plt.legend(handles, [f'$\mathrm{{s}}_{i+1}$' for i in range(len(mean_train))], title='States', loc='upper right', fontsize=16, title_fontsize=16, frameon=False)
     
-    plt.ylabel('Probabilities', fontsize=18)
-    plt.xticks([0.4, 1.9], ['Training', 'Test'], fontsize=18)
+    plt.ylabel('Probabilities', fontsize=16)
+    plt.xticks([0.4, 1.9], ['Training', 'Test'], fontsize=16)
+    plt.tick_params(axis='y', which='major', labelsize=16, width=1.5, length=6, direction='out')
+    plt.tick_params(axis='x', which='both', length=0)
 
     max_prob = max(max(mean_train_plot), max(mean_test_plot))
     y_ticks = np.arange(0, max_prob + 0.1, 0.1)
     plt.yticks(y_ticks)
 
     if title is not None:
-        plt.title(title, fontsize=20)
+        plt.title(title, fontsize=18)
         
     ax = plt.gca()
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_linewidth(1.5)
+    ax.spines['bottom'].set_linewidth(1.5)
     
     if save_path is not None:
         plt.savefig(save_path, bbox_inches='tight', dpi=300)
