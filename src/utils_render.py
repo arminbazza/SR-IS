@@ -387,10 +387,12 @@ def create_bar_plot(means, colors, ylabel, xlabels, y_lim=None, std=None, title=
     if std is not None:
         ax.errorbar(x, means, yerr=std, fmt='none', color='black', capsize=0)
     
-    ax.set_ylabel(ylabel, fontsize=18)
-    ax.set_title(title, fontsize=20) if title else None
+    ax.set_ylabel(ylabel, fontsize=16)
+    ax.set_title(title, fontsize=18) if title else None
     ax.set_xticks(x)
-    ax.set_xticklabels(xlabels, rotation=0, ha='center', fontsize=18)
+    ax.set_xticklabels(xlabels, rotation=0, ha='center', fontsize=16)
+    ax.tick_params(axis='y', which='major', labelsize=16, width=1.5, length=6, direction='out')
+    ax.tick_params(axis='x', which='both', length=0)
     
     if y_lim is None:
         ax.set_yticks(np.arange(0, 1.01, 0.2))
@@ -401,7 +403,7 @@ def create_bar_plot(means, colors, ylabel, xlabels, y_lim=None, std=None, title=
     
     for spine in ['left', 'right', 'bottom', 'top']:
         ax.spines[spine].set_color('black')
-        ax.spines[spine].set_linewidth(1)
+        ax.spines[spine].set_linewidth(1.5)
     
     for spine in ['right', 'top']:
         # ax.spines[spine].set_color('black')
@@ -458,18 +460,20 @@ def plot_nhb_decisions(probs_reward, probs_policy, probs_transition, colors, leg
 
     handles = [plt.Rectangle((0,0),1,1, facecolor=color_list[i], edgecolor='black') for i in range(num_states)]
     if leg_loc is not None:
-        plt.legend(handles, [f'State {i+2}' for i in range(num_states)], title='States', loc=leg_loc, fontsize=12, title_fontsize=14, frameon=False)
+        plt.legend(handles, [f'State {i+2}' for i in range(num_states)], title='States', loc=leg_loc, fontsize=16, title_fontsize=16, frameon=False)
     else:
-        plt.legend(handles, [f'State {i+2}' for i in range(num_states)], title='States', fontsize=12, title_fontsize=14, frameon=False)
+        plt.legend(handles, [f'State {i+2}' for i in range(num_states)], title='States', fontsize=16, title_fontsize=16, frameon=False)
 
-    plt.ylabel('Probabilities', fontsize=18)
-    plt.title(title if title else 'Decision Probabilities Across Revaluations', fontsize=22, pad=20)
+    plt.ylabel('Probabilities', fontsize=16)
+    plt.title(title if title else 'Decision Probabilities Across Revaluations', fontsize=18, pad=20)
     
-    plt.xticks(indices + (num_states - 1) * (bar_width + state_spacing) / 2, ['Reward Revaluation', 'Policy Revaluation', 'Transition Revaluation'], fontsize=18)
+    plt.xticks(indices + (num_states - 1) * (bar_width + state_spacing) / 2, ['Reward Revaluation', 'Policy Revaluation', 'Transition Revaluation'], fontsize=16)
+    plt.tick_params(axis='y', which='major', width=1.5, length=6, direction='out')
+    plt.tick_params(axis='x', which='both', length=0)
 
     max_prob = max(max(probs_reward), max(probs_policy), max(probs_transition))
     y_ticks = np.arange(0, min(max_prob + 0.1, 1.05), 0.1)
-    plt.yticks(y_ticks, fontsize=12)
+    plt.yticks(y_ticks, fontsize=16)
 
     plt.rcParams['font.family'] = 'sans-serif'
     plt.rcParams['font.sans-serif'] = ['Helvetica Neue']
@@ -480,6 +484,8 @@ def plot_nhb_decisions(probs_reward, probs_policy, probs_transition, colors, leg
     ax = plt.gca()
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_linewidth(1.5)
+    ax.spines['bottom'].set_linewidth(1.5)
 
     if save_path is not None:
         plt.savefig(save_path, bbox_inches='tight', dpi=300)
