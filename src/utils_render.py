@@ -260,8 +260,10 @@ def plot_decision_prob_two_step(probs_train, probs_test, colors, leg_loc=None, s
         plt.legend(handles, [f'$\mathrm{{S}}_{i+1+start_i}$' for i in range(len(probs_train))], title='States', loc='upper right', fontsize=16, title_fontsize=16, frameon=False)
     
     if ylabel is not None:
-        plt.ylabel(ylabel, fontsize=20)
-    plt.xticks([0.2, 1.7], ['Before\nrevaluation', 'After\nrevaluation'], fontsize=20)
+        plt.ylabel(ylabel, fontsize=16)
+    plt.xticks([0.2, 1.7], ['Before\nrevaluation', 'After\nrevaluation'], fontsize=16)
+    plt.tick_params(axis='y', which='major', labelsize=16, width=1.5, length=6, direction='out')
+    plt.tick_params(axis='x', which='both', length=0)
 
     # Set custom y-axis ticks
     if ymax is None:
@@ -273,12 +275,14 @@ def plot_decision_prob_two_step(probs_train, probs_test, colors, leg_loc=None, s
         plt.yticks(y_ticks)
 
     if title is not None:
-        plt.title(title, fontsize=22)
+        plt.title(title, fontsize=18)
     
+    ax = plt.gca()
     if remove_spine:
-        ax = plt.gca()
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_linewidth(1.5)
+    ax.spines['bottom'].set_linewidth(1.5)
 
     # Save the image
     if save_path is not None:
