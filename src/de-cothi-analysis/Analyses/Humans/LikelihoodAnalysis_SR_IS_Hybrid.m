@@ -1,8 +1,7 @@
 load('likelihoods_individuals.mat')
 load('likelihoods_RW.mat')
 load('human_SR_IS_llik.mat')
-% load('human_Hybrid_llik.mat')
-load('human_Hybrid_llik_V2.mat')
+load('human_Hybrid_llik.mat')
 
 
 % Set default properties for all figures
