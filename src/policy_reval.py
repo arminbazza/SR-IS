@@ -28,8 +28,8 @@ prob_point = 36
 prob_locs = [29, 43]
 
 # High level
-save_figs = False
-load_checkpoints = False
+save_figs = True
+load_checkpoints = True
 
 # Save dir
 save_dir = os.path.join('..', 'figures/')
@@ -105,8 +105,8 @@ else:
         step_label = f"{num_step // 1000}k"
         prob_train_mean = np.load(checkpoint_dir+'train_mean_' + step_label + '.npy')
         prob_test_mean = np.load(checkpoint_dir+'test_mean_' + step_label + '.npy')
-        std_train = np.load(checkpoint_dir+'train_std_' + step_label + '.npy', std_train)
-        std_test = np.load(checkpoint_dir+'test_std_' + step_label + '.npy', std_test)
+        std_train = np.load(checkpoint_dir+'train_std_' + step_label + '.npy')
+        std_test = np.load(checkpoint_dir+'test_std_' + step_label + '.npy')
         save_path = save_dir + 'policy_reval_sr_is_' + step_label + '.png' if save_figs else None
         ylabel = 'Probabilities' if num_step in [40000, 250000] else None
         plot_decision_prob(
